@@ -8,3 +8,35 @@ body,
 html {
   height: 100%;
 }
+
+#legend_header {
+  margin-left: 10px;
+}
+
+.legend_box {
+  width: 20px;
+  height: 20px;
+  display: inline-block;
+  margin-left: 15px;
+}
+
+.legend_text {
+  position: relative;
+  left: 15px;
+  top: -4px;
+  display:inline-block;
+}
+
+.legend_row {
+  display: flexbox;
+  flex-direction: row;
+}
+
+#legend_id {
+  width: 150px;
+  height: 210px;
+  display: flexbox;
+  flex-direction: column;
+  background-color: white;
+  border-radius: 10px;
+}

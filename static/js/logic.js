@@ -7,10 +7,10 @@ d3.json(queryURL).then(function(data) {
 
 function chooseColor(magnitude) {
     if (magnitude >= 5) {
-        return "red";
+        return "maroon";
     }
     else if (magnitude >= 4) {
-        return "lightred";
+        return "orangered";
     }
     else if (magnitude >= 3) {
         return "orange";
@@ -32,8 +32,8 @@ function circleSize(magnitude) {
 
 function createFeatures(earthquakeData) {
     
-    function onEachLayer(feature,latlng) {
-        return L.circleMarker(latlng,
+    function onEachLayer(feature) {
+        return L.circleMarker([feature.geometry.coordinates[1], feature.geometry.coordinates[0]],
             {
                 radius: circleSize(feature.properties.mag),
                 fillColor: chooseColor(feature.properties.mag),
@@ -87,27 +87,22 @@ function createMap(earthquakes) {
 
     var legend = L.control({ position: "bottomright" });
     legend.onAdd = function() {
-    var div = L.DomUtil.create("div", "info legend");
-    
-    var labels = [];
+        var div = L.DomUtil.create("div", "legend_class");
+        div.setAttribute("id","legend_id");
 
-    // Add min & max
-    var legendInfo = "<h1>Magnitude</h1>" +
-      "<div class=\"labels\">" +
-        "<div class=\"row\">" + "<div class=\"colorbox1\"/>" + "</div>" +
-      "</div>";
+        labels = ["0-1", "1-2", "2-3", "3-4", "4-5", "5+"];
 
-    div.innerHTML = legendInfo;
+        //add title
+        div.innerHTML = '<h3 id = "legend_header"> Magnitude </h3>';
 
-    limits.forEach(function(limit, index) {
-      labels.push("<li style=\"background-color: " + colors[index] + "\"></li>");
-    });
+        for (var i = 0; i < labels.length; i++) {
+            div.innerHTML += '<div class = "legend_row"> <div class = "legend_box" id = "legend_element_'+ i + '" style="background-color: ' + chooseColor(i) + "\"></div> " + 
+            '<div class = "legend_text">' + labels[i] + '</div> </div>';
+        };
+        return div;
+    };
 
-    div.innerHTML += "<ul>" + labels.join("") + "</ul>";
-    return div;
-  };
-
-legend.addTo(myMap);
+    legend.addTo(myMap);
 
 };
 
